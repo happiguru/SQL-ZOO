@@ -34,3 +34,32 @@ SELECT name FROM world
 SELECT name,length(name)
 FROM world
 WHERE length(name)=5 and region='Europe';
+
+SELECT name, area*2 FROM world WHERE population = 64000;
+
+SELECT name, area, population
+  FROM world
+ WHERE area > 50000 AND population < 10000000;
+
+ SELECT name, population/area
+  FROM world
+ WHERE name LIKE ('China', 'Nigeria', 'France', 'Australia');
+
+ SELECT name FROM world
+  WHERE name LIKE 'Y%';
+
+SELECT name FROM world
+  WHERE name LIKE '%y';
+
+SELECT name FROM world
+  WHERE name LIKE '%x%';
+
+SELECT name FROM world
+  WHERE name LIKE '%land';
+
+SELECT name FROM world
+  WHERE name LIKE 'C%ia';
+
+SELECT name FROM world
+  WHERE name LIKE '%oo%';
+
