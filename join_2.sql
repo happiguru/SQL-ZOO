@@ -19,3 +19,79 @@ SELECT id
 FROM movie
 WHERE title = 'Casablanca';
 
+SELECT DISTINCT name
+FROM actor JOIN casting
+ON (casting.actorid = actor.id)
+WHERE movieid = 11768;
+
+SELECT DISTINCT name
+FROM actor JOIN casting
+ON (casting.actorid = actor.id)
+WHERE movieid = (SELECT id FROM movie WHERE title = 'Alien');
+
+SELECT title
+FROM movie JOIN casting
+ON (movie.id = casting.movieid)
+WHERE actorid = (SELECT id FROM actor WHERE name = 'Harrison Ford');
+
+SELECT title
+FROM movie JOIN casting
+ON (movie.id = casting.movieid)
+WHERE actorid = (SELECT id FROM actor WHERE name = 'Harrison Ford' AND ord != 1);
+
+SELECT DISTINCT title,name 
+FROM movie JOIN casting 
+ON movie.id=movieid JOIN actor ON actor.id=actorid WHERE yr =1962 AND ord=1;
+
+SELECT yr,COUNT(title) FROM
+  movie JOIN casting ON movie.id=movieid
+        JOIN actor   ON actorid=actor.id
+WHERE name='Rock Hudson'
+GROUP BY yr
+HAVING COUNT(title) > 2;
+
+SELECT title, name FROM actor
+JOIN casting 
+  ON actor.id = casting.actorid
+JOIN movie 
+  ON casting.movieid = movie.id
+WHERE movieid IN (
+  SELECT movieid FROM casting
+    WHERE actorid IN (
+  SELECT id FROM actor
+    WHERE name='Julie Andrews')) 
+AND ord = 1;
+
+SELECT name FROM casting 
+JOIN movie 
+ON casting.movieid=movie.id 
+JOIN actor 
+ON casting.actorid=actor.id
+WHERE ord = 1  
+GROUP BY name 
+HAVING COUNT(*) >= 15
+ORDER BY name;
+
+SELECT title, COUNT(actorid) FROM casting 
+JOIN movie 
+ON casting.movieid=movie.id 
+JOIN actor 
+ON casting.actorid=actor.id
+WHERE yr = 1978
+GROUP BY title
+HAVING COUNT(actorid)
+ORDER BY COUNT(actorid) DESC, title;
+
+SELECT name FROM casting 
+JOIN movie 
+ON casting.movieid=movie.id 
+JOIN actor 
+ON casting.actorid=actor.id
+WHERE movieid IN (
+  SELECT movieid FROM casting 
+  JOIN movie 
+    ON casting.movieid=movie.id 
+  JOIN actor 
+    ON casting.actorid=actor.id
+  WHERE name = 'Art Garfunkel'
+) AND name != 'Art Garfunkel';
